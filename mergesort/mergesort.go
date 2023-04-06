@@ -19,7 +19,9 @@ func main() {
 	//调用递归
 	nums2 := []int{123, 1, 24, 211, 3, 12, 5, 76, 84, 95, 345, 48, 35, 135, 6, 42312, 52, 68, 985, 6, 54, 3, 3245, 6, 37, 5, 5, 58, 8, 56, 52, 52, 5}
 	dst := []int{}
-	dst = append(dst, nums2...)
+	dst = append(dst, nums2...) //go的两种copy切片方式
+	//dst := make([]int, len(nums2))
+	//copy(dst, nums2)
 	mergeSortRecursion(nums2, dst, 0, len(dst))
 	fmt.Printf("%v\n", dst)
 
