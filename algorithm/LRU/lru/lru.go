@@ -8,7 +8,7 @@ import (
 type LRU struct {
 	size      int
 	innerList *list.List
-	InnerMap  map[int]*list.Element
+	innerMap  map[int]*list.Element
 }
 
 func New(size int) *LRU {
@@ -21,7 +21,7 @@ type entry struct {
 }
 
 func (lru *LRU) Get(key int) (int, bool) {
-	if e, ok := lru.InnerMap[key]; ok {
+	if e, ok := lru.innerMap[key]; ok {
 		lru.innerList.MoveToFront(e)
 		return e.Value.(*entry).value, true
 	}
@@ -29,23 +29,22 @@ func (lru *LRU) Get(key int) (int, bool) {
 }
 
 func (lru *LRU) Put(key, value int) {
-	if e, ok := lru.InnerMap[key]; ok {
+	if e, ok := lru.innerMap[key]; ok {
 		e.Value.(*entry).value = value
-		lru.size++
 		lru.innerList.MoveToFront(e)
 	} else {
 		newentry := &entry{key, value}
-		lru.InnerMap[key] = lru.innerList.PushFront(newentry)
+		lru.innerMap[key] = lru.innerList.PushFront(newentry)
 		if lru.innerList.Len() > lru.size {
 			back := lru.innerList.Back()
 			lru.innerList.Remove(back)
-			delete(lru.InnerMap, back.Value.(*entry).key)
+			delete(lru.innerMap, back.Value.(*entry).key)
 		}
 	}
 }
 
 func (lru *LRU) PrintMap() {
-	for _, v := range lru.InnerMap {
+	for _, v := range lru.innerMap {
 		fmt.Printf("%v\n", v.Value.(*entry))
 	}
 }

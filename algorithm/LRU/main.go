@@ -9,5 +9,8 @@ func main() {
 	for i := 0; i < 100000; i++ {
 		lru.Put(i, i+1)
 	}
+	for i := 0; i < 3; i++ {
+		lru.Put(i, i+1)
+	}
 	lru.PrintMap()
 }
